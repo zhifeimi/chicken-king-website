@@ -1,0 +1,281 @@
+/* Chicken King Dapto. Palette and lettering are lifted from the shop's own fascia sign. */
+
+@font-face { font-family: "Bevan"; src: url("assets/fonts/bevan.woff2") format("woff2"); font-display: swap; }
+@font-face { font-family: "Yellowtail"; src: url("assets/fonts/yellowtail.woff2") format("woff2"); font-display: swap; }
+@font-face {
+  font-family: "Archivo"; src: url("assets/fonts/archivo.woff2") format("woff2");
+  font-weight: 100 900; font-stretch: 62% 125%; font-display: swap;
+}
+
+:root {
+  --sun: #FFD400;      /* the sign */
+  --crimson: #D81B4A;  /* the lettering and the strip under it */
+  --bottle: #0F5A2B;   /* the painted list of what they sell */
+  --coal: #1A1310;
+  --ember: #FF7A1A;
+  --white: #fff;
+
+  --slab: "Bevan", Rockwell, "Roboto Slab", Georgia, serif;
+  --body: "Archivo", "Helvetica Neue", Arial, sans-serif;
+  --script: "Yellowtail", "Brush Script MT", cursive;
+
+  --gutter: clamp(1.25rem, 5vw, 4rem);
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+@media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
+
+body {
+  margin: 0;
+  font: 400 1.125rem/1.55 var(--body);
+  color: var(--coal);
+  background: var(--sun);
+}
+
+img { max-width: 100%; height: auto; }
+a { color: inherit; }
+:focus-visible { outline: 3px solid currentColor; outline-offset: 3px; }
+[id] { scroll-margin-top: 4rem; }
+
+h2, h3 { font-family: var(--slab); font-weight: 400; margin: 0; }
+h2 { font-size: clamp(2rem, 5.2vw, 3.75rem); line-height: 1.05; text-wrap: balance; }
+p { margin: 0 0 1em; }
+
+.vh { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.skip { position: absolute; left: -999rem; top: 0; z-index: 20; padding: .75rem 1rem; background: var(--coal); color: var(--white); }
+.skip:focus { left: 0; }
+
+/* ---------- The sign ---------- */
+
+.sign {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: clamp(1rem, 4vw, 3rem);
+  padding: clamp(1.5rem, 4.5vw, 3.5rem) var(--gutter);
+  background: var(--sun);
+}
+.sign__mascot { display: block; width: clamp(5.5rem, 12vw, 9.25rem); }
+.sign__name {
+  margin: 0;
+  font: 400 clamp(2.4rem, 6.4vw, 6.5rem)/1 var(--slab);
+  color: var(--crimson);
+  text-wrap: balance;
+  /* white keyline and drop shadow, as the signwriter painted it */
+  text-shadow:
+    .035em 0 var(--white), -.035em 0 var(--white), 0 .035em var(--white), 0 -.035em var(--white),
+    .026em .026em var(--white), -.026em .026em var(--white), .026em -.026em var(--white), -.026em -.026em var(--white),
+    .08em .09em 0 rgba(26, 19, 16, .3);
+}
+.sign__list {
+  display: flex; flex-wrap: wrap; gap: .2em 1.1em;
+  margin: clamp(.75rem, 1.8vw, 1.5rem) 0 0; padding: 0; list-style: none;
+  font-size: clamp(.95rem, 2.1vw, 1.6rem); font-weight: 800; line-height: 1.25;
+  text-transform: uppercase; letter-spacing: .01em;
+  color: var(--bottle);
+}
+.sign__list li::before { content: "\2022"; margin-right: .4em; color: var(--crimson); }
+
+/* ---------- The strip under the sign (stays pinned) ---------- */
+
+.strip {
+  position: sticky; top: 0; z-index: 10;
+  display: flex; align-items: center; gap: clamp(1rem, 3vw, 2.25rem);
+  padding: .5rem var(--gutter);
+  background: var(--crimson); color: var(--white);
+  font-weight: 700; white-space: nowrap;
+  overflow-x: auto; scrollbar-width: none;
+}
+.strip::-webkit-scrollbar { display: none; }
+.strip__tag { font: 400 1.75rem/1.1 var(--script); }
+.strip__phone { font-size: 1.2rem; font-weight: 800; text-decoration: none; }
+.strip__hours { font-weight: 500; }
+.strip__links { display: flex; gap: 1.5rem; margin: 0 0 0 auto; padding: 0; list-style: none; }
+.strip__links a { text-decoration: none; }
+.strip a:hover { text-decoration: underline; text-underline-offset: .2em; }
+
+/* ---------- Over the coals ---------- */
+
+.coals { background: var(--coal); color: var(--white); }
+.coals__photo {
+  display: block; width: 100%;
+  height: clamp(14rem, 34vw, 31rem);
+  object-fit: cover; object-position: 50% 15%;
+  filter: sepia(.2) saturate(1.35) contrast(1.08);
+}
+.coals__copy {
+  position: relative;
+  display: grid; grid-template-columns: 1fr min(36%, 28rem); gap: clamp(1.5rem, 4vw, 4rem); align-items: end;
+  margin-top: clamp(-9rem, -11vw, -3rem);
+  padding: clamp(1.5rem, 5vw, 4rem) var(--gutter) clamp(3rem, 7vw, 5.5rem);
+  background: linear-gradient(to bottom, rgba(26, 19, 16, 0), var(--coal) clamp(3rem, 11vw, 9rem));
+  text-shadow: 0 2px 12px rgba(26, 19, 16, .8);
+}
+/* the one moving thing on the page: heat coming off the coals */
+.coals__copy::before {
+  content: ""; position: absolute; inset: -7rem 0 auto; height: 18rem;
+  background: radial-gradient(50% 50% at 50% 50%, rgba(255, 122, 26, .5), transparent);
+  mix-blend-mode: screen; pointer-events: none;
+  animation: ember 3.5s ease-in-out infinite alternate;
+}
+@keyframes ember { from { opacity: .35; } to { opacity: 1; } }
+@media (prefers-reduced-motion: reduce) { .coals__copy::before { animation: none; opacity: .7; } }
+
+.coals__copy > * { position: relative; }
+.coals__copy h2 { max-width: 15ch; font-size: clamp(2.1rem, 6vw, 4.5rem); color: var(--sun); }
+.coals__copy p { max-width: 54ch; margin-top: 1.25rem; font-size: 1.25rem; }
+.coals__plate { display: block; width: 100%; border: 5px solid var(--white); }
+
+/* ---------- Shared band layout ---------- */
+
+.band { padding: clamp(3.5rem, 8vw, 6.5rem) var(--gutter); }
+.wrap { max-width: 76rem; margin: 0 auto; }
+.lede { max-width: 58ch; margin: 1.1rem 0 0; font-size: 1.25rem; }
+.aside { max-width: 70ch; margin: 2.5rem 0 0; }
+
+.band--sun { background: var(--sun); }
+.band--white { background: var(--white); }
+.band--bottle { background: var(--bottle); color: var(--white); }
+.band--crimson { background: var(--crimson); color: var(--white); }
+.band--coal { background: var(--coal); color: var(--white); }
+.band--bottle h2, .band--crimson h2, .band--coal h2 { color: var(--sun); }
+.band--sun h2 { color: var(--crimson); }
+.band--white h2 { color: var(--bottle); }
+
+/* section heading with a photo beside it */
+.head { display: grid; grid-template-columns: 1fr min(34%, 24rem); gap: clamp(1.5rem, 4vw, 4rem); align-items: center; }
+.head__photo { margin: 0; }
+.head__photo img { display: block; width: 100%; border: 3px solid var(--coal); }
+.head__photo figcaption { margin-top: .6rem; font-size: .95rem; font-weight: 600; line-height: 1.35; }
+
+.banner { display: block; width: 100%; aspect-ratio: 21 / 8; object-fit: cover; object-position: 50% 62%; margin-top: clamp(2rem, 5vw, 3.5rem); }
+
+.actions { display: flex; flex-wrap: wrap; gap: .9rem; margin: 2rem 0 0; text-shadow: none; }
+.btn {
+  display: inline-block; padding: .8rem 1.35rem;
+  border: 3px solid transparent; border-radius: .4rem;
+  font-size: 1.05rem; font-weight: 800; line-height: 1.2; text-decoration: none;
+}
+.btn--sun { background: var(--sun); color: var(--coal); box-shadow: 0 4px 0 #B89800; }
+.btn--sun:hover { background: #FFE04D; }
+.btn--sun:active { transform: translateY(3px); box-shadow: 0 1px 0 #B89800; }
+.btn--ghost { border-color: currentColor; }
+.btn--ghost:hover { background: rgba(255, 255, 255, .14); }
+
+/* ---------- Family deals: photo tiles, like the boards over the counter ---------- */
+
+.deals { display: grid; grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr)); gap: 1.25rem; margin-top: clamp(2rem, 5vw, 3.5rem); }
+.deal { background: var(--white); border: 3px solid var(--coal); }
+.deal img { display: block; width: 100%; aspect-ratio: 5 / 4; object-fit: cover; }
+.deal__text { padding: .9rem 1rem 1.1rem; }
+.deal h3 { font-size: 1.25rem; line-height: 1.2; color: var(--crimson); }
+.deal p { margin: .45rem 0 0; font-size: 1rem; line-height: 1.4; }
+
+/* ---------- Burgers: each one drawn as its ingredients ---------- */
+
+.burgers {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  column-gap: clamp(1.5rem, 4vw, 3.5rem);
+  margin-top: clamp(2.5rem, 6vw, 4rem);
+}
+.burger { display: grid; grid-template-rows: subgrid; grid-row: span 3; text-align: center; }
+.burger h3 { font-size: 1.5rem; color: var(--sun); }
+.burger p { max-width: 30ch; margin: .5rem auto 0; }
+
+.stack {
+  align-self: end;
+  display: flex; flex-direction: column; align-items: center; gap: 3px;
+  width: min(100%, 17rem); margin: 0 auto 1.4rem; padding: 0; list-style: none;
+  font-size: .95rem; font-weight: 700; font-stretch: 87%; line-height: 1.15; color: var(--coal);
+}
+.stack > * { width: 100%; padding: .45rem .75rem; border-radius: .4rem; } /* same specificity as the layers below, so they can override */
+.l-bun {
+  width: 94%; height: 3.75rem;
+  border-radius: 8rem 8rem .6rem .6rem / 3.5rem 3.5rem .6rem .6rem;
+  background:
+    radial-gradient(ellipse 5px 3px at 28% 38%, #FFF3D1 98%, transparent),
+    radial-gradient(ellipse 5px 3px at 44% 22%, #FFF3D1 98%, transparent),
+    radial-gradient(ellipse 5px 3px at 58% 44%, #FFF3D1 98%, transparent),
+    radial-gradient(ellipse 5px 3px at 72% 28%, #FFF3D1 98%, transparent),
+    radial-gradient(ellipse 5px 3px at 38% 58%, #FFF3D1 98%, transparent),
+    #E8A33D;
+}
+.l-base { width: 94%; height: 1.9rem; border-radius: .5rem .5rem 1.4rem 1.4rem; background: #E8A33D; }
+.l-mayo { width: 86%; background: #FFF8E1; }
+.l-lettuce { width: 106%; border-radius: 1rem .4rem 1rem .4rem; background: #6BBF3B; }
+.l-cheese { background: #FFB703; }
+.l-chilli { width: 90%; background: #D00000; color: var(--white); }
+.l-pineapple { width: 84%; border-radius: 2rem; background: #FFE566; }
+.l-bacon { width: 102%; background: #A4262C; color: var(--white); }
+.l-fillet { width: 98%; padding-block: .9rem; border-radius: .9rem; background: #A9571A; color: var(--white); }
+
+.shout { margin: clamp(3rem, 7vw, 5rem) 0 0; }
+.shout blockquote { margin: 0; }
+.shout p { max-width: 24ch; margin: 0; font: 400 clamp(1.6rem, 3.6vw, 2.75rem)/1.2 var(--slab); color: var(--sun); text-wrap: balance; }
+.shout figcaption { margin-top: 1rem; font-weight: 700; }
+
+/* ---------- The menu boards ---------- */
+
+.boards { columns: 17rem; column-gap: 1.25rem; margin-top: clamp(2rem, 5vw, 3.5rem); }
+.board { break-inside: avoid; margin: 0 0 1.25rem; background: var(--white); border: 3px solid var(--coal); }
+.board h3 { padding: .6rem 1rem; background: var(--crimson); color: var(--white); font-size: 1.2rem; line-height: 1.2; }
+.board ul { margin: 0; padding: .4rem 1rem .8rem; list-style: none; }
+.board li { padding: .45rem 0; border-bottom: 1px dashed rgba(26, 19, 16, .28); font-size: 1.05rem; font-weight: 700; font-stretch: 87%; line-height: 1.3; }
+.board li:last-child { border-bottom: 0; }
+.board small { display: block; font-size: .9rem; font-weight: 400; color: #4A3F39; }
+.board li.board__note { font-size: .9rem; font-weight: 400; color: #4A3F39; }
+
+/* ---------- Salad bar ---------- */
+
+.trays { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-top: clamp(2rem, 5vw, 3.5rem); }
+.trays img { display: block; width: 100%; aspect-ratio: 3 / 2; object-fit: cover; object-position: 50% 85%; filter: saturate(1.15); }
+.salads { columns: 13rem; column-gap: 2rem; margin: 2rem 0 0; padding: 0; list-style: none; font-weight: 700; font-stretch: 87%; color: var(--bottle); }
+.salads li { padding: .3rem 0; break-inside: avoid; }
+
+/* ---------- Catering ---------- */
+
+.spreads { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(1.5rem, 4vw, 3rem); margin-top: clamp(2rem, 5vw, 3.5rem); align-items: start; }
+.spread h3 { font-size: 2rem; color: var(--sun); }
+.spread ul { margin: .75rem 0 0; padding: 0; list-style: none; }
+.spread li { padding: .45rem 0; border-bottom: 1px solid rgba(255, 255, 255, .3); font-stretch: 87%; }
+.spread b { color: var(--sun); font-weight: 800; }
+
+/* ---------- Reviews ---------- */
+
+.quotes { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(1.5rem, 4vw, 3rem); margin-top: clamp(2rem, 5vw, 3.5rem); }
+.quotes figure { margin: 0; padding-top: 1.1rem; border-top: 4px solid var(--coal); }
+.quotes blockquote { margin: 0; }
+.quotes p { margin: 0; font-size: 1.35rem; font-weight: 600; line-height: 1.35; }
+.quotes figcaption { margin-top: .9rem; font-weight: 700; color: var(--bottle); }
+
+/* ---------- Find us ---------- */
+
+.find { display: grid; grid-template-columns: 1.15fr 1fr; gap: clamp(1.75rem, 5vw, 4rem); align-items: center; }
+.find__photo { display: block; width: 100%; }
+.find dl { margin: 1.75rem 0 1.5rem; }
+.find dt { font-weight: 800; color: var(--sun); }
+.find dd { margin: 0 0 1rem; font-size: 1.3rem; line-height: 1.35; }
+.delivery { margin: 1.75rem 0 0; }
+.band--coal a:not(.btn), .band--sun .lede a { text-underline-offset: .2em; }
+
+/* ---------- Footer ---------- */
+
+.foot { padding: 2.5rem var(--gutter); background: var(--crimson); color: var(--white); text-align: center; }
+.foot p { margin: 0 0 .5rem; }
+.foot__tag { font: 400 2.25rem/1.1 var(--script); }
+.foot__note { max-width: 60ch; margin-inline: auto; font-size: .9rem; opacity: .9; }
+
+/* ---------- Small screens ---------- */
+
+@media (max-width: 52rem) {
+  .sign, .coals__copy, .head { grid-template-columns: 1fr; }
+  .coals__plate, .head__photo { max-width: 26rem; }
+  .banner { aspect-ratio: 16 / 9; }
+  .burgers, .trays, .spreads, .quotes, .find { grid-template-columns: 1fr; }
+  .burgers { row-gap: 0; }
+  .burger { margin-bottom: 3rem; }
+  .burger:last-child { margin-bottom: 0; }
+  .strip__tag { font-size: 1.4rem; }
+}
